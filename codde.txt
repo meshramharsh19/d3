@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Map with Model Upload and Positioning</title>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/exporters/GLTFExporter.js"></script>
+  <link rel="stylesheet" href="style.css"> 
+</head>
+
+<body>
+  <div id="sidebar">
+    <h2>Model Controls</h2>
+    <div id="upload-area">
+      <label for="modelUpload" class="custom-file-upload">Choose File</label> 
+      <input type="file" id="modelUpload" accept=".glb, .gltf, .obj">
+    </div>
+
+    <div>
+      Longitude: <input type="number" id="longitude" value="-115.0">
+      Latitude: <input type="number" id="latitude" value="37.0">
+      Height: <input type="number" id="height" value="1000.0">
+    </div>
+    <div>
+      Heading: <input type="number" id="heading" value="0.0">
+      Pitch: <input type="number" id="pitch" value="0.0">
+      Roll: <input type="number" id="roll" value="0.0">
+    </div>
+  </div>
+
+  <div id="cesiumContainer"></div> 
+
+  <script>
+    // ... (Your JavaScript code remains the same) ...
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3ZjI2M2I5YS04YTVkLTRhOWYtYmFiMi0yMzRmOGIyNTE2OTkiLCJpZCI6MjY2MDc4LCJpYXQiOjE3MzY1MDQ0Nzl9.ST6Sriro-NE-NjBF1Gu_yRfyzQEqacBx1HR6zsnJYcM'; 
+
+    const viewer = new Cesium.Viewer('cesiumContainer', {
+  imageryProvider: new Cesium.UrlTemplateImageryProvider({
+    url: 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'
+  }),
+  terrainProvider: Cesium.createWorldTerrain() 
+});
+
+    let modelEntity = null; 
+
+    const uploadInput = document.getElementById('modelUpload');
+    uploadInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        if (file.name.endsWith('.obj')) {
+          const loader = new THREE.OBJLoader();
+          const object = loader.parse(e.target.result); 
+
+          const scene = new THREE.Scene();
+          scene.add(object);
+
+          const exporter = new THREE.GLTFExporter();
+          exporter.parse(scene, function (gltf) {
+            const modelUrl = URL.createObjectURL(new Blob([gltf], { type: 'model/gltf-binary' })); 
+
+            modelEntity = viewer.entities.add({
+              name: file.name,
+              position: Cesium.Cartesian3.fromDegrees(-115.0, 37.0, 1000.0), 
+              model: {
+                uri: modelUrl 
+              }
+            });
+            viewer.trackedEntity = modelEntity;
+          }, { binary: true }); 
+
+        } else { 
+          const modelUrl = e.target.result; 
+
+          modelEntity = viewer.entities.add({
+            name: file.name,
+            position: Cesium.Cartesian3.fromDegrees(-115.0, 37.0, 1000.0), 
+            model: {
+              uri: modelUrl
+            }
+          });
+          viewer.trackedEntity = modelEntity;
+        }
+      }
+
+      if (file.name.endsWith('.obj')) {
+        reader.readAsText(file);
+      } else {
+        reader.readAsDataURL(file); 
+      }
+    });
+
+    // Event listeners for input fields
+    document.getElementById('heading').addEventListener('input', updateModelOrientation);
+    document.getElementById('pitch').addEventListener('input', updateModelOrientation);
+    document.getElementById('roll').addEventListener('input', updateModelOrientation);
+
+    function updateModelOrientation() {
+      if (modelEntity) {
+        const heading = Cesium.Math.toRadians(parseFloat(document.getElementById('heading').value));
+        const pitch = Cesium.Math.toRadians(parseFloat(document.getElementById('pitch').value));
+        const roll = Cesium.Math.toRadians(parseFloat(document.getElementById('roll').value));
+
+        const hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+        const orientation = Cesium.Transforms.headingPitchRollQuaternion(modelEntity.position.getValue(), hpr);
+        modelEntity.orientation = orientation;
+      }
+    }
+    document.getElementById('longitude').addEventListener('input', updateModelPosition);
+    document.getElementById('latitude').addEventListener('input', updateModelPosition);
+    document.getElementById('height').addEventListener('input', updateModelPosition);
+
+    function updateModelPosition() {
+      if (modelEntity) {
+        const longitude = parseFloat(document.getElementById('longitude').value);
+        const latitude = parseFloat(document.getElementById('latitude').value);
+        const height = parseFloat(document.getElementById('height').value);
+
+        const newPosition = Cesium.Cartesian3.fromDegrees(longitude, latitude, height);
+        modelEntity.position = newPosition;
+        viewer.trackedEntity = modelEntity; 
+
+      }
+    }
+  </script>
+
+
+Longitude: 
+79.095115
+ Latitude: 
+21.086535
+ Height: 
+-42
+Heading: 
+20
+ Pitch: 
+92
+ Roll: 
+20

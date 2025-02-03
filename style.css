@@ -1,0 +1,121 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  font-family: 'Roboto', sans-serif; 
+  background: linear-gradient(to bottom, #e0ffff, #cce0ff); 
+}
+
+.map-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.cesium-container {
+  flex-grow: 1; 
+}
+
+#sidebar {
+  width: 320px;
+  background-color: rgba(255, 255, 255, 0.9); 
+  border-right: 1px solid rgba(200, 200, 200, 0.5);
+  z-index: 10;
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease; 
+}
+
+#sidebar:hover {
+  width: 370px; 
+}
+
+#sidebar h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
+}
+
+#upload-area {
+  margin-bottom: 20px;
+}
+
+#modelUpload {
+  display: none; 
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #7f8c8d; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 500;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+.custom-file-upload:hover {
+  background-color: #95a5a6; 
+  transform: translateY(-2px);
+}
+
+#longitude,
+#latitude,
+#height,
+#heading,
+#pitch,
+#roll {
+  padding: 8px;
+  margin: 5px 0 15px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: calc(100% - 22px); 
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.8); 
+}
+
+#longitude:focus,
+#latitude:focus,
+#height:focus,
+#heading:focus,
+#pitch:focus,
+#roll:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(127, 140, 141, 0.5); 
+}
+
+.cesium-viewer-toolbar {
+  background-color: rgba(255, 255, 255, 0.7); 
+}
+
+/* Appearance controls */
+#modelColor {
+  padding: 0;
+  margin: 5px 0 15px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  height: 30px;
+  width: 50px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); 
+}
+
+#modelOpacity {
+  width: calc(100% - 22px); 
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.8); 
+}
+
+/* Add a separator */
+#sidebar h3 {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}

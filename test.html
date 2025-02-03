@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Map with Model Upload and Positioning</title>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Cesium.js" defer></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/exporters/GLTFExporter.js" defer></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="sidebar">
+    <h2>Model Controls</h2>
+    <div id="upload-area">
+      <label for="fileInput" class="custom-file-upload">Location File</label>
+      <input type="file" id="fileInput" accept=".txt" style="display: none;">
+      
+      <label for="modelUpload" class="custom-file-upload">Choose Model</label> 
+      <input type="file" id="modelUpload" accept=".glb, .gltf, .obj">
+      <h4>note:</h4>
+      <h5>1. Select Georeferencing.txt</h5>
+      <h5>2. Select .obj or .glb or .gltf files</h5>
+    </div>
+
+    <div>
+      Longitude: <input type="number" id="longitude" value="0">
+      Latitude: <input type="number" id="latitude" value="0">
+      Height: <input type="number" id="height" value="-42">
+    </div>
+    <div>
+      Heading: <input type="number" id="heading" value="20">
+      Pitch: <input type="number" id="pitch" value="92">
+      Roll: <input type="number" id="roll" value="20">
+    </div>
+
+    <h3>Appearance</h3>
+    <div>
+      Color: <input type="color" id="modelColor" value="#ffffff"> 
+    </div>
+    <div>
+      Opacity: <input type="range" id="modelOpacity" min="0" max="1" step="0.1" value="1">
+    </div>
+  </div>
+
+  <div id="cesiumContainer"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html> 
