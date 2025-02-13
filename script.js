@@ -92,7 +92,7 @@ fileInput.addEventListener('change', () => {
 
 // script.js Code
 
-Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3ZjI2M2I5YS04YTVkLTRhOWYtYmFiMi0yMzRmOGIyNTE2OTkiLCJpZCI6MjY2MDc4LCJpYXQiOjE3MzY1MDQ0Nzl9.ST6Sriro-NE-NjBF1Gu_yRfyzQEqacBx1HR6zsnJYcM';
+Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5NDUyNzI0NS0xNzZmLTQ4ZDctYWY3MC1jMmY1MzQxZTc3NjkiLCJpZCI6MjY2NDUwLCJpYXQiOjE3MzkyNTQ2OTF9.ms2EiPBrQb7no-Hk3OX1haugWxAl6bYpbWhj-SH8aXA';
 
 const viewer = new Cesium.Viewer('cesiumContainer', {
     imageryProvider: new Cesium.UrlTemplateImageryProvider({
